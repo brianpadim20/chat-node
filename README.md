@@ -21,9 +21,31 @@ Para poder trabajar con sockets se instalan los siguientes módulos de Node:
 
 Después de instalarlas, ir a package.json y en la propiedad scripts crear el siguiente script:
 
-        "start": "nodemon server/index.js",
+    "start": "nodemon server/index.js",
 
 Esto se hace para definir el comando npm start para que ejecute el index.js
 
 Crear el fichero index.js en el server
 
+## Cargar librerías
+
+Para crear el servidor con NodeJS y Express, lo primero que se debe hacer es cargar el módulo Express
+
+    var express = require('express');
+    var app = express();
+    var http = require('http'); // Importar el módulo http
+    var server = http.createServer(app); // Crear un servidor HTTP con Express
+
+Esta variable server se le debe pasar a socket.io para que entienda que estará trabajando con sockets dentro de la conexión http que se generen en el servidor http
+
+Ahora se crea una variable io, a la cual se le pasará el servidor o la librería http con la aplicación de express para poder trabajar con los sockets.
+
+    var io = require('socket.io')(server); // Inicializar socket.io con el servidor HTTP
+
+Ahora se procede a crear un servidor con express.
+
+    server.listen(6677, function(){ // 6677 es el puerto al que se conectará
+        console.log('Servidor funcionando correctamente en http://localhost:6677');
+    });
+
+Para verificar que si funciona bien, es opcionar crear una ruta con la variable express (app)
