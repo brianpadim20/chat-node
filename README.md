@@ -49,3 +49,9 @@ Ahora se procede a crear un servidor con express.
     });
 
 Para verificar que si funciona bien, es opcionar crear una ruta con la variable express (app)
+
+Una vez verificada la url y que esté funcionando, se procede a trabajar con Socket.io
+
+Primero se abre una conexión al socket de la siguiente manera:
+
+El método connection debe ser llamado, se encarga de recibir las conexiones de los clientes y detecta cada vez que algún cliente se conecte.
