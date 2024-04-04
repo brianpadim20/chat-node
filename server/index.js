@@ -6,7 +6,7 @@ var server = http.createServer(app); // Crear un servidor HTTP con Express
 
 var io = require('socket.io')(server); // Inicializar socket.io con el servidor HTTP
 
-app.use(express.static('client'));//Método de express para cargar todos los html estáticos
+app.use(express.static('client'));//Método de express para cargar todos los html estáticos de la carpeta client
 
 app.get('/hola-mundo', function(req, res){
     res.status(200).send('Hola mundo desde esta ruta');

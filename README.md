@@ -50,8 +50,30 @@ Ahora se procede a crear un servidor con express.
 
 Para verificar que si funciona bien, es opcionar crear una ruta con la variable express (app)
 
+---
+
+**Trabajo con Socket.io**
+
 Una vez verificada la url y que esté funcionando, se procede a trabajar con Socket.io
 
 Primero se abre una conexión al socket de la siguiente manera:
 
+    io.on('connection', function(socket){
+        console.log("El cliente con IP: " + socket.handshake.address + " se ha conectado...");
+
+    });
+
 El método connection debe ser llamado, se encarga de recibir las conexiones de los clientes y detecta cada vez que algún cliente se conecte.
+
+Luego se crea un middleware de express para cargar los html estáticos
+
+    app.use(express.static('client'));//Método de express para cargar todos los html estáticos de la carpeta client
+
+Después de creado el middleware, crea dentro de la carpeta client el index.html y el main.js.
+
+Dentro del index.html se carga el script de la librería de socket y el src del main.js creado en esta misma carpeta de la siguiente manera:
+
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script src="main.js"></script>
+
+Si esto se ejecuta, en la dirección del localhost aparecerá el título creado en el html con el h1
