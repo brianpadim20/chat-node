@@ -40,7 +40,11 @@ Esta variable server se le debe pasar a socket.io para que entienda que estará 
 
 Ahora se crea una variable io, a la cual se le pasará el servidor o la librería http con la aplicación de express para poder trabajar con los sockets.
 
-    var io = require('socket.io')(server); // Inicializar socket.io con el servidor HTTP
+    var io = require('socket.io')(server, {
+    cors: {
+        origin: '*',
+    }
+});
 
 Ahora se procede a crear un servidor con express.
 
@@ -77,3 +81,40 @@ Dentro del index.html se carga el script de la librería de socket y el src del 
     <script src="main.js"></script>
 
 Si esto se ejecuta, en la dirección del localhost aparecerá el título creado en el html con el h1
+
+## Hacer que el cliente se pueda conectar con el socket
+
+En client/main.js se agrega el siguiente código:
+
+    var socket = io.connect('http://192.168.0.103:6677', {'forceNew':true})//Inicia la conexión 
+    /*En lugar de la ip del equipo, se podría usar el localhost, pero limitaría sus funciones, no se podría usar en otro telefono*/
+
+    socket.on('messages', function(data){//Mensajes de inicio
+        console.log(data);//data hace referencia a la variable messages creada en index.js
+        render(data)
+
+    });
+
+    function render(data){//Método que permite recorrer lo que hay en el array data y mostrar o hacer otra cosa
+        var html = data.map(function(message, index){//Itera los elementos del array data, guarda el contenido de cada indice en la variable mensaje y el indice en index
+            return(`
+                <div class="message">
+                    <strong>${message.nickname}</strong> dice:
+                    <p>${message.text}</p>
+                </div>
+
+            `);
+
+        }).join(' ');
+
+        document.getElementById('messages').innerHTML = html;   
+
+    }
+
+Y en index.js se pone el siguiente código para que aparezca al inicio de la conexión:
+
+    var messages = [{
+        id:1,
+        text:'Bienvenido al chat privado de Socket.io y NodeJS de Brian Patiño',
+        nickname: 'Bot-Burzum War'
+    }]
